@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suni Nail Studio｜森妮美甲工作室</title>
+
+  <!-- =========================
+       ⭐ 全域樣式（你可以調整顏色/字體）
+       ========================= -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: #3f382f; /* 👉 文字顏色可改 */
+      background: #faf7f2; /* 👉 背景顏色可改 */
+      line-height: 1.7;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* =========================
+       ⭐ 首頁 Hero 區（封面）
+       👉 可換圖片、標題
+       ========================= */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(50,45,38,0.5), rgba(50,45,38,0.48)),
+        url("https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1800&q=80") center/cover;
+      /* 👉 上面網址可換成你的美甲照片 */
+      color: #fff8ee;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 32px 8%;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: 32px;
+      left: 8%;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      position: absolute;
+      top: 36px;
+      right: 8%;
+      display: flex;
+      gap: 20px;
+    }
+
+    .hero-content { text-align: center; }
+
+    .hero h1 { font-size: 60px; }
+    .hero h2 { font-size: 40px; margin: 10px 0; }
+
+    .btn {
+      padding: 12px 28px;
+      border: 1px solid white;
+      border-radius: 999px;
+      margin-top: 20px;
+      display: inline-block;
+    }
+
+    section { padding: 80px 8%; }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .option {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .option.selected {
+      background: #bda484;
+      color: white;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- =========================
+       ⭐ 首頁（可修改品牌名稱）
+       ========================= -->
+  <header class="hero">
+    <div class="logo">Suni</div> <!-- 👉 可改品牌小Logo文字 -->
+
+    <nav>
+      <a href="#booking">線上預約</a>
+      <a href="#services">專屬服務</a>
+    </nav>
+
+    <div class="hero-content">
+      <h1>Suni Nail Studio</h1> <!-- 👉 改品牌英文 -->
+      <h2>森妮美甲工作室</h2> <!-- 👉 改品牌中文 -->
+      <p>指尖的溫柔，收藏每一個心動瞬間</p> <!-- 👉 改標語 -->
+      <a class="btn" href="#booking">客製化預約</a>
+    </div>
+  </header>
+
+  <!-- =========================
+       ⭐ 預約區（核心功能）
+       ========================= -->
+  <section id="booking">
+
+    <h2>線上預約</h2>
+
+    <!-- STEP 1 -->
+    <h3>1. 選擇服務</h3>
+    <div class="option-grid" data-name="service">
+      <!-- 👉 這裡可以新增/刪除項目 -->
+      <button class="option">手部單色</button>
+      <button class="option">手部貓眼</button>
+      <button class="option">手部漸層</button>
+      <button class="option">手部簡單款式</button>
+      <button class="option">手部基礎保養</button>
+      <button class="option">純卸甲</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <h3>2. 卸甲服務</h3>
+    <div class="option-grid" data-name="removal">
+      <!-- 👉 可自由調整分類名稱 -->
+      <button class="option">本店卸甲續作</button>
+      <button class="option">他店卸甲續作</button>
+      <button class="option">不需卸甲</button>
+      <button class="option">本店卸甲不續作</button>
+      <button class="option">他店卸甲不續作</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <h3>3. 美甲師</h3>
+    <div class="option-grid" data-name="artist">
+      <!-- 👉 若有多位美甲師可以新增 -->
+      <button class="option">Suni</button>
+    </div>
+
+    <!-- STEP 4 -->
+    <h3>4. 日期</h3>
+    <input type="date" id="date" />
+    <p>※需提前兩天預約</p>
+
+    <!-- 👉 不可預約日期（可自行新增） -->
+    <p style="color:red;text-decoration:line-through;">
+      2025-02-17、2025-02-21
+    </p>
+
+    <!-- STEP 5 -->
+    <h3>5. 時段</h3>
+    <div class="option-grid" data-name="time">
+      <!-- 👉 可調整營業時間 -->
+      <button class="option">10:30</button>
+      <button class="option">11:30</button>
+      <button class="option">13:30</button>
+      <button class="option">14:30</button>
+      <button class="option">15:30</button>
+      <button class="option">16:30</button>
+      <button class="option">17:30</button>
+      <button class="option">18:30</button>
+    </div>
+
+    <!-- STEP 6 -->
+    <h3>6. 聯絡資訊</h3>
+    <input type="text" id="name" placeholder="姓名" />
+    <input type="tel" id="phone" placeholder="電話" />
+
+    <!-- 預約按鈕 -->
+    <br><br>
+    <button onclick="confirmBooking()">確認預約並前往LINE</button>
+
+  </section>
+
+  <!-- =========================
+       ⭐ 彈出確認視窗
+       ========================= -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3>確認預約內容</h3>
+      <pre id="summary"></pre>
+      <button onclick="goLine()">前往LINE</button>
+      <button onclick="closeModal()">返回</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // ⭐ 儲存選項
+    // =========================
+    const data = {};
+
+    document.querySelectorAll(".option-grid").forEach(group => {
+      const name = group.dataset.name;
+      group.querySelectorAll(".option").forEach(btn => {
+        btn.onclick = () => {
+          group.querySelectorAll(".option").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          data[name] = btn.innerText;
+        };
+      });
+    });
+
+    function confirmBooking() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const date = document.getElementById("date").value;
+
+      if (!name || !phone || !date) {
+        alert("請填寫完整資料");
+        return;
+      }
+
+      const msg = `姓名:${name}\n電話:${phone}\n服務:${data.service}\n卸甲:${data.removal}\n美甲師:${data.artist}\n日期:${date}\n時段:${data.time}`;
+
+      document.getElementById("summary").innerText = msg;
+      window.finalMsg = msg;
+      document.getElementById("modal").classList.add("show");
+    }
+
+    function closeModal(){
+      document.getElementById("modal").classList.remove("show");
+    }
+
+    function goLine(){
+      const lineId = "@你的LINEID"; // 👉 記得改這裡
+      const url = `https://line.me/R/oaMessage/${lineId}/${encodeURIComponent(window.finalMsg)}`;
+      window.open(url);
+    }
+
+  </script>
+
+</body>
+</html>
