@@ -3,191 +3,465 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Suni Nail Studio｜森妮美甲工作室</title>
+  <title>Suni Nail Studio｜線上預約</title>
 
-  <!-- ⭐ 手機優化版本（重點調整在這） -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: "Noto Sans TC", "PingFang TC", sans-serif;
-      color: #3f382f;
-      background: #faf7f2;
-      line-height: 1.6;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: #f8f3ec;
+      color: #3d352d;
+      min-height: 100vh;
     }
 
-    .hero {
-      min-height: 80vh; /* 手機縮短 */
-      background:
-        linear-gradient(rgba(50,45,38,0.5), rgba(50,45,38,0.5)),
-        url("https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1800&q=80") center/cover;
+    button, input { font-family: inherit; }
+
+    .app {
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      color: white;
+      padding: 24px 18px 32px;
     }
 
-    .hero h1 {
-      font-size: 28px; /* 原本太大，縮小 */
-      line-height: 1.3;
+    .brand {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: #8f775d;
     }
 
-    .hero h2 {
-      font-size: 20px;
-      margin: 8px 0;
-    }
-
-    .hero p {
-      font-size: 14px;
-      margin: 10px 0;
-    }
-
-    .btn {
-      font-size: 14px;
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: 1px solid white;
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-    section {
-      padding: 40px 16px; /* 手機左右縮小 */
-    }
-
-    h2 {
+    .brand-name {
+      font-family: Georgia, serif;
       font-size: 22px;
-      margin-bottom: 16px;
+      letter-spacing: 1px;
+      font-weight: bold;
     }
 
-    h3 {
-      font-size: 16px;
-      margin: 16px 0 10px;
+    .step-count {
+      font-size: 13px;
+      letter-spacing: 1px;
     }
 
-    .option-grid {
+    .progress {
+      width: 100%;
+      max-width: 520px;
+      height: 6px;
+      background: #e8ddd0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 16.66%;
+      background: #a98d6f;
+      transition: width 0.3s ease;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #fffaf4;
+      border-radius: 28px;
+      padding: 28px 20px 22px;
+      box-shadow: 0 18px 50px rgba(91, 70, 48, 0.12);
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen { display: none; animation: fade 0.25s ease; }
+    .screen.active { display: block; }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      color: #a98d6f;
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 30px;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      color: #7b7065;
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .options {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* 手機改兩欄 */
-      gap: 10px;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 8px;
     }
 
     .option {
-      padding: 10px;
-      font-size: 13px; /* 手機字體縮小 */
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      text-align: center;
+      width: 100%;
+      border: 1.5px solid #ddcebd;
+      background: #fffdf9;
+      color: #4d4339;
+      border-radius: 18px;
+      padding: 16px 14px;
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s ease;
     }
 
     .option.selected {
-      background: #bda484;
+      background: #a98d6f;
+      border-color: #a98d6f;
       color: white;
+      box-shadow: 0 8px 22px rgba(169, 141, 111, 0.25);
+    }
+
+    .group-title {
+      font-size: 14px;
+      color: #9a8269;
+      margin: 18px 0 8px;
+      font-weight: 700;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 14px;
+      border: 1.5px solid #ddcebd;
+      background: #fffdf9;
+      border-radius: 18px;
+      padding: 16px 14px;
+      font-size: 16px;
+      outline: none;
+      color: #4d4339;
+      margin-bottom: 12px;
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 16px;
+    input:focus {
+      border-color: #a98d6f;
+      box-shadow: 0 0 0 4px rgba(169, 141, 111, 0.14);
+    }
+
+    .notice {
+      background: #f3eadf;
+      color: #806b55;
+      border-radius: 16px;
+      padding: 12px 14px;
       font-size: 14px;
-      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .closed-date {
+      color: #c05f5f;
+      text-decoration: line-through;
+      margin-right: 10px;
+    }
+
+    .actions {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+      padding-top: 24px;
+    }
+
+    .primary, .secondary {
       border: none;
-      background: #9d8466;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .primary {
+      flex: 1;
+      background: #3d352d;
       color: white;
     }
 
-    .modal-content {
-      width: 90%;
-      padding: 16px;
-      font-size: 14px;
+    .secondary {
+      width: 38%;
+      background: transparent;
+      color: #7b6b5c;
+      border: 1px solid #ddcebd;
     }
 
-    @media (min-width: 768px) {
-      /* 電腦版維持比較大 */
-      .hero h1 { font-size: 60px; }
-      .hero h2 { font-size: 36px; }
-      .hero p { font-size: 18px; }
+    .summary-box {
+      background: #f3eadf;
+      border-radius: 20px;
+      padding: 18px;
+      white-space: pre-line;
+      color: #4f453c;
+      font-size: 14px;
+      line-height: 1.9;
+      margin-top: 14px;
+    }
 
-      .option-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    .line-note {
+      font-size: 13px;
+      color: #7b7065;
+      margin-top: 16px;
+    }
 
-      section {
-        padding: 80px 8%;
-      }
+    @media (min-width: 700px) {
+      .app { padding-top: 42px; }
+      .card { padding: 38px 42px 30px; }
+      h1 { font-size: 36px; }
+      .options.two-col { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
+
 <body>
-
-  <header class="hero">
-    <div>
-      <h1>Suni Nail Studio</h1>
-      <h2>森妮美甲工作室</h2>
-      <p>指尖的溫柔，收藏每一個心動瞬間</p>
-      <a class="btn" href="#booking">立即預約</a>
-    </div>
-  </header>
-
-  <section id="booking">
-    <h2>線上預約</h2>
-
-    <h3>1. 選擇服務</h3>
-    <div class="option-grid" data-name="service">
-      <button class="option">手部單色</button>
-      <button class="option">手部貓眼</button>
-      <button class="option">手部漸層</button>
-      <button class="option">手部簡單款</button>
-      <button class="option">基礎保養</button>
-      <button class="option">純卸甲</button>
+  <main class="app">
+    <div class="brand">
+      <div class="brand-name">Suni</div>
+      <div class="step-count" id="stepCount">STEP 1 / 6</div>
     </div>
 
-    <h3>2. 卸甲服務</h3>
-    <div class="option-grid" data-name="removal">
-      <button class="option">本店卸甲續作</button>
-      <button class="option">他店卸甲續作</button>
-      <button class="option">不需卸甲</button>
-      <button class="option">本店卸甲不續作</button>
-      <button class="option">他店卸甲不續作</button>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <h3>3. 美甲師</h3>
-    <div class="option-grid" data-name="artist">
-      <button class="option">Suni</button>
-    </div>
+    <section class="card">
+      <!-- STEP 1：服務項目 -->
+      <div class="screen active" data-step="1">
+        <div class="eyebrow">Online Reservation</div>
+        <h1>想預約哪一種服務呢？</h1>
+        <p class="desc">請先選擇主要服務項目，後續可以在 LINE 中再補充細節。</p>
 
-    <h3>4. 日期</h3>
-    <input type="date" id="date" />
-    <p style="font-size:12px;">※需提前兩天預約</p>
+        <div class="options" data-name="service">
+          <!-- 👉 要新增服務，就複製一個 button 改文字 -->
+          <button class="option">手部單色</button>
+          <button class="option">手部貓眼</button>
+          <button class="option">手部漸層</button>
+          <button class="option">手部簡單款式</button>
+          <button class="option">手部基礎保養</button>
+          <button class="option">不做美甲／保養（純卸甲使用）</button>
+        </div>
+      </div>
 
-    <h3>5. 時段</h3>
-    <div class="option-grid" data-name="time">
-      <button class="option">10:30</button>
-      <button class="option">11:30</button>
-      <button class="option">13:30</button>
-      <button class="option">14:30</button>
-      <button class="option">15:30</button>
-      <button class="option">16:30</button>
-      <button class="option">17:30</button>
-      <button class="option">18:30</button>
-    </div>
+      <!-- STEP 2：卸甲 -->
+      <div class="screen" data-step="2">
+        <div class="eyebrow">Removal Service</div>
+        <h1>需要卸甲服務嗎？</h1>
+        <p class="desc">請依照是否續作選擇對應項目。</p>
 
-    <h3>6. 聯絡資訊</h3>
-    <input type="text" id="name" placeholder="姓名" />
-    <input type="tel" id="phone" placeholder="電話" />
+        <div class="group-title">卸甲加續作</div>
+        <div class="options" data-name="removal">
+          <button class="option">本店卸甲續作</button>
+          <button class="option">他店卸甲續作</button>
+          <button class="option">不需卸甲</button>
+        </div>
 
-    <button onclick="confirmBooking()">確認預約並前往LINE</button>
-  </section>
+        <div class="group-title">單純卸甲</div>
+        <div class="options" data-name="removal">
+          <button class="option">本店卸甲不續作</button>
+          <button class="option">他店卸甲不續作</button>
+        </div>
+      </div>
 
+      <!-- STEP 3：美甲師 -->
+      <div class="screen" data-step="3">
+        <div class="eyebrow">Nail Artist</div>
+        <h1>選擇美甲師</h1>
+        <p class="desc">目前開放 Suni 預約，之後若有其他美甲師可再新增。</p>
+
+        <div class="options" data-name="artist">
+          <!-- 👉 有第二位美甲師就複製 button -->
+          <button class="option">Suni</button>
+        </div>
+      </div>
+
+      <!-- STEP 4：日期 -->
+      <div class="screen" data-step="4">
+        <div class="eyebrow">Appointment Date</div>
+        <h1>選擇預約日期</h1>
+        <p class="desc">預約需提前兩天，請避開不可預約日期。</p>
+
+        <div class="notice">需提前兩天預約</div>
+        <input type="date" id="date" />
+
+        <p class="desc">
+          不可預約日期：<br>
+          <span class="closed-date">2025 年 2 月 17 日</span>
+          <span class="closed-date">2025 年 2 月 21 日</span>
+        </p>
+      </div>
+
+      <!-- STEP 5：時段 -->
+      <div class="screen" data-step="5">
+        <div class="eyebrow">Time</div>
+        <h1>選擇預約時段</h1>
+        <p class="desc">請選擇你方便的時段，實際預約仍以 LINE 回覆確認為主。</p>
+
+        <div class="options two-col" data-name="time">
+          <!-- 👉 可自行新增/刪除時段 -->
+          <button class="option">10:30</button>
+          <button class="option">11:30</button>
+          <button class="option">13:30</button>
+          <button class="option">14:30</button>
+          <button class="option">15:30</button>
+          <button class="option">16:30</button>
+          <button class="option">17:30</button>
+          <button class="option">18:30</button>
+        </div>
+      </div>
+
+      <!-- STEP 6：聯絡資訊 -->
+      <div class="screen" data-step="6">
+        <div class="eyebrow">Contact</div>
+        <h1>留下聯絡資訊</h1>
+        <p class="desc">請填寫姓名與電話，確認後會跳出預約內容。</p>
+
+        <input type="text" id="name" placeholder="姓名（必填）" />
+        <input type="tel" id="phone" placeholder="電話（必填）" />
+      </div>
+
+      <!-- STEP 7：確認頁 -->
+      <div class="screen" data-step="7">
+        <div class="eyebrow">Confirm</div>
+        <h1>確認預約內容</h1>
+        <p class="desc">請確認內容是否正確。按下按鈕後會開啟 LINE，仍需自行送出訊息才算完成預約。</p>
+        <div class="summary-box" id="summary"></div>
+        <p class="line-note">系統會自動帶入文字，但請記得在 LINE 對話框中按下「傳送」。</p>
+      </div>
+
+      <div class="actions">
+        <button class="secondary" id="prevBtn" onclick="prevStep()">上一步</button>
+        <button class="primary" id="nextBtn" onclick="nextStep()">確認，下一步</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    const data = {
+      service: "",
+      removal: "",
+      artist: "",
+      date: "",
+      time: "",
+      name: "",
+      phone: ""
+    };
+
+    // 點選選項後，會把答案存進 data
+    document.querySelectorAll(".options").forEach(group => {
+      const name = group.dataset.name;
+      group.querySelectorAll(".option").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(`[data-name="${name}"] .option`).forEach(item => item.classList.remove("selected"));
+          btn.classList.add("selected");
+          data[name] = btn.textContent.trim();
+        });
+      });
+    });
+
+    // 不可預約日期：要新增就加在這裡
+    const closedDates = ["2025-02-17", "2025-02-21"];
+    const dateInput = document.getElementById("date");
+
+    // 自動限制最早可預約日：今天 + 2 天
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 2);
+    dateInput.min = minDate.toISOString().split("T")[0];
+
+    dateInput.addEventListener("change", () => {
+      if (closedDates.includes(dateInput.value)) {
+        alert("此日期為不可預約日期，請選擇其他日期。");
+        dateInput.value = "";
+      }
+      data.date = dateInput.value;
+    });
+
+    function showStep(step) {
+      document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+      });
+      document.querySelector(`[data-step="${step}"]`).classList.add("active");
+
+      const progressStep = Math.min(step, totalSteps);
+      document.getElementById("progressBar").style.width = `${progressStep / totalSteps * 100}%`;
+
+      document.getElementById("stepCount").textContent = step <= 6 ? `STEP ${step} / 6` : "CONFIRM";
+      document.getElementById("prevBtn").style.visibility = step === 1 ? "hidden" : "visible";
+
+      const nextBtn = document.getElementById("nextBtn");
+      if (step < 6) nextBtn.textContent = "確認，下一步";
+      if (step === 6) nextBtn.textContent = "確認預約內容";
+      if (step === 7) nextBtn.textContent = "前往 LINE 聯繫";
+    }
+
+    function validateStep() {
+      if (currentStep === 1 && !data.service) return "請先選擇服務項目";
+      if (currentStep === 2 && !data.removal) return "請先選擇卸甲服務";
+      if (currentStep === 3 && !data.artist) return "請先選擇美甲師";
+      if (currentStep === 4 && !dateInput.value) return "請先選擇日期";
+      if (currentStep === 5 && !data.time) return "請先選擇時段";
+      if (currentStep === 6) {
+        data.name = document.getElementById("name").value.trim();
+        data.phone = document.getElementById("phone").value.trim();
+        if (!data.name) return "請填寫姓名";
+        if (!data.phone) return "請填寫電話";
+      }
+      return "";
+    }
+
+    function buildMessage() {
+      return `您好，我想預約 Suni Nail Studio｜森妮美甲工作室\n\n姓名：${data.name}\n電話：${data.phone}\n服務項目：${data.service}\n卸甲需求：${data.removal}\n美甲師：${data.artist}\n預約日期：${data.date}\n預約時段：${data.time}\n\n我已確認需自行送出此訊息，才算完成預約。`;
+    }
+
+    function nextStep() {
+      if (currentStep === 7) {
+        goLine();
+        return;
+      }
+
+      const error = validateStep();
+      if (error) {
+        alert(error);
+        return;
+      }
+
+      if (currentStep === 6) {
+        document.getElementById("summary").textContent = buildMessage();
+      }
+
+      currentStep += 1;
+      showStep(currentStep);
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep -= 1;
+        showStep(currentStep);
+      }
+    }
+
+    function goLine() {
+      const lineId = "@你的LINEID"; // 👉 這裡換成你的 LINE 官方帳號 ID
+      const message = buildMessage();
+      const url = `https://line.me/R/oaMessage/${lineId}/${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
+
+    showStep(currentStep);
+  </script>
 </body>
 </html>
